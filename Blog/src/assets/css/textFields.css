@@ -1,0 +1,56 @@
+.input-text-container {
+	width: 100%;
+	margin-bottom: 30px;
+}
+
+.input-text-container {
+	p, span {
+		font-size: 14px;
+	}
+}
+
+input,
+textarea {
+	border: 1px solid;
+    border-radius: 2px;
+    padding: 0 10px;
+	width: calc(100% - 22px);
+    height: 32px;
+    margin: 5px 0 0 0;
+	resize: vertical;
+}
+
+textarea {
+	min-height: 100px;
+	padding-top: 5px;
+}
+
+.bottom {
+	height: 24px;
+	margin-bottom: -24px;
+	display: flex;
+	justify-content: space-between;
+}
+
+span {
+	vertical-align: middle;
+}
+
+.correct {
+    border-color: var(--light-grey-color);
+}
+
+::placeholder,
+.correct-content {
+	font-size: 14px;
+	color: var(--light-grey-color);
+}
+
+.danger-field {
+	border-color: var(--danger-color);
+}
+
+.danger-content {
+	border-color: var(--danger-color);
+	color: var(--danger-color)
+}
