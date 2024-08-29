@@ -8,7 +8,7 @@
             </div>
             <div class="bottom">
                 <h3 class="place">{{ county }}, {{ city }}</h3>
-                <RouterLink :to="`story/${id}`">Подробнее</RouterLink>
+                <RouterLink :to="`/posts/${id}/`">Подробнее</RouterLink>
             </div>
         </div>
     </div>
@@ -56,7 +56,9 @@ img {
 }
 
 .top {
-    /* content - bottom - gap */
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
     max-height: calc(213px - 56px - 20px);
 
     h2 {

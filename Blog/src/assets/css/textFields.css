@@ -22,7 +22,7 @@ textarea {
 
 textarea {
 	min-height: 100px;
-	padding-top: 5px;
+	padding: 5px 10px;
 }
 
 .bottom {

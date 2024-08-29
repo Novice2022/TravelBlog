@@ -1,24 +1,30 @@
 <template>
 	<div class="input-text-container">
 		<p class="input-text-title">
-			<span><span class="danger-content">* </span>{{ titleText }}</span>
+			<span>
+				<span
+					class="danger-content"
+					v-if="isRequiredFormField"
+				>* </span>
+				{{ titleText }}
+			</span>
 		</p>
 		<textarea
 			type="text"
 			:class="isCorrectField ? 'correct' : 'danger-field'"
 			:placeholder="placeholderText ?? titleText"
-			v-model="value"
+			:value="modelValue"
+			@input="$emit(
+				'update:modelValue',
+				($event.target as HTMLInputElement).value
+			)"
 			:maxlength="contentLimit"
+			:id="id"
 		/>
 		<div class="bottom">
-			<p
-				v-if="!isCorrectField"
-				class="danger-content"
-			>
-				{{ onErrorHint }}
-			</p>
+			<p class="danger-content"> {{ !isCorrectField ? onErrorHint : '' }} </p>
 			<p class="correct-content">
-				{{ value?.toString().length }}&nbsp;/&nbsp;{{ getPrettyContentLengthLimit }}
+				{{ modelValue?.toString().length }}&nbsp;/&nbsp;{{ getPrettyContentLengthLimit }}
 			</p>
 		</div>
 	</div>
@@ -29,17 +35,34 @@ export default {
 	props: {
 		titleText: String,
 		onErrorHint: String,
-		isCorrectField: Boolean,
-		contentLimit: Number,
+		contentLimit: {
+			type: Number,
+            required: true,
+		},
+		isCorrectField: {
+			type: Boolean,
+            default: true,
+            required: false,
+		},
 		placeholderText: {
 			type: String,
 			default: '',
 			required: false,
 		},
-		value: {
+		modelValue: {
 			type: [String, Number],
 			reqired: true,
 		},
+		isRequiredFormField: {
+			type: Boolean,
+            default: true,
+            required: false,
+		},
+		id: {
+			type: String,
+            default: "",
+            required: false,
+		}
 	},
 	computed: {
 		getPrettyContentLengthLimit(): String {
@@ -58,5 +81,11 @@ export default {
 </script>
 
 <style scoped>
+
 @import url("../assets/css/textFields.css");
+
+#edit-profile-textarea {
+	height: 125px;
+}
+
 </style>

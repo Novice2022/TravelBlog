@@ -35,6 +35,12 @@ body {
     justify-self: center;
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+}
+
 .container {
     background-color: white;
     filter: drop-shadow(0 1px 10px rgba(0, 0, 0, 0.1));
@@ -57,4 +63,36 @@ a {
     margin-bottom: 20px;
     color: #141414;
     text-align: center;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.error-message {
+	margin-top: -10px;
+	margin-bottom: 10px;
+	text-align: center;
+	color: var(--danger-color);
+    font-size: 14px;
 }

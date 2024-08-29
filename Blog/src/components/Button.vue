@@ -5,20 +5,20 @@
 		:type="buttonType"
 		@click="onClick"
 	>
+		<p
+			v-if="preventRedirect"
+			:class="buttonStyle + '-content'"
+		>
+			<slot/>
+		</p>
 		<RouterLink
-			v-if="redirecting"
+			v-else
 			:to="routerLink"
 		>
 		    <p :class="buttonStyle + '-content'">
 				<slot/>
 			</p>
 		</RouterLink>
-		<p
-			v-else
-			:class="buttonStyle + '-content'"
-		>
-			<slot/>
-		</p>
 	</button>
 </template>
 
@@ -49,7 +49,7 @@ export default {
 			type: String,
 			required: false,
 		},
-		redirecting: {
+		preventRedirect: {
 			type: Boolean,
             default: false,
 		}

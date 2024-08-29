@@ -4,21 +4,20 @@
 			<Post
 				v-for="(post, index) in posts"
 				:key="index"
-				:id="index"
+				:id="index + 1"
 				:title="post.title"
 				:excerpt="post.excerpt"
 				:county="post.county"
 				:city="post.city"
-				:photo-path="imagesPath + post.photo"
+				:photo-path="getImageLocation(post.photo)"
 			/>
 		</div>
 		<Button
-			v-if="logged"
+			v-if="authStore.isAuthenticated"
 			button-type="button"
 			button-style="primary"
-			style="margin-bottom: 30px;"
-			:on-click="redirectToCreatePost"
-			router-link="/authorization"
+			router-link="/create-post/"
+			id="create-post"
 		>
 			Добавить моё путешествие
 		</Button>
@@ -31,16 +30,29 @@ import Button from '@/components/Button.vue';
 import Post from '@/components/Post.vue';
 import Header from '@/components/Header.vue';
 
-interface PostInterface {
-	id: number;
-	title: string;
-	excerpt: string;
-	county: string;
-	city: string;
-	photo: string;
+import { useAuthStore } from '@/stores/authorization';
+import { getServersImageSource } from '@/config/static';
+
+import axios from 'axios';
+
+
+interface PostShortInterface {
+	id: number
+	title: string
+	excerpt: string
+	county: string
+	city: string
+	photo: string
 }
 
+
 export default {
+	setup() {
+		const authStore = useAuthStore();
+		return {
+			authStore
+		};
+	},
 	components: {
 		Post,
         Button,
@@ -51,33 +63,22 @@ export default {
 	},
 	data() {
 		return {
-			posts: [] as PostInterface[],
-			imagesPath: "http://10.10.129.20:8000",
-
-			logged: false,
+			posts: [] as PostShortInterface[],
 		};
 	},
 	methods: {
-		async loadPosts() {
-			fetch(
-				"http://10.10.129.20:8000/api/posts/"
-			).then(
-				response => response.json()
-			).then(
-				result => this.posts = result
-			).catch(
-				error => console.error("Error:", error)
-			)
+		async loadPosts(): Promise<void> {
+			try {
+				this.posts = (await axios.get("posts/")).data;
+			} catch (error) {
+				console.error(error);
+			}
 		},
-		redirectToCreatePost() {
-			this.$router.push({
-				name: "create-post"
-			})
-		}
+		getImageLocation: getServersImageSource
 	},
 	computed: {
-		headerContent() {
-			if (this.logged) {
+		headerContent(): string {
+			if (this.authStore.isAuthenticated) {
 				return "ИСТОРИИ ВАШИХ ПУТЕШЕСТВИЙ"
 			}
 
@@ -96,6 +97,10 @@ export default {
 	grid-template-columns: repeat(3, 370px);
 	justify-self: center;
 	margin-bottom: 30px;
+}
+
+#create-post {
+	margin: 30px 0;
 }
 
 </style>

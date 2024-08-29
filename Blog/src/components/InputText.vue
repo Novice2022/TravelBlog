@@ -1,8 +1,12 @@
 <template>
 	<div class="input-text-container">
-		<p class="input-text-title">
-			<span><span class="danger-content">* </span>{{ titleText }}</span>
-		</p>
+		<span>
+			<span
+				class="danger-content"
+				v-if="isRequiredFormField"
+			>* </span>
+			{{ titleText }}
+		</span>
 		<input
 			maxlength="255"
 			:class="isCorrectField ? 'correct' : 'danger-field'"
@@ -30,7 +34,11 @@ export default {
 	props: {
 		titleText: String,
 		onErrorHint: String,
-		isCorrectField: Boolean,
+		isCorrectField: {
+			type: Boolean,
+            default: true,
+            required: false,
+		},
 		placeholderText: {
 			type: String,
             default: '',
@@ -42,6 +50,11 @@ export default {
             required: false,
 		},
 		modelValue: [String, Number],
+		isRequiredFormField: {
+			type: Boolean,
+            default: true,
+            required: false,
+		}
 	},
 	data() {
 		return {
